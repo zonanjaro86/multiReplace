@@ -16,6 +16,41 @@ const onReadyPromise = () => {
     });
 };
 
-onReadyPromise().then(() => {
-    console.log('loaded');
+/**
+ * 画面初期表示時にDOMを生成しイベントリスナーを追加する
+ * 
+ * @function init
+ */
+const init = () => {
+    // HTML要素を作成
+    createDom();
+
+    // イベントを追加
+    setEvent();
+};
+
+/**
+ * HTML要素を作成
+ * 
+ * @function init
+ */
+const createDom = () => {
+    const node = document.createElement('h1');
+    node.innerText = 'test';
+    document.body.appendChild(node);
+};
+
+/**
+ * イベントを追加
+ * 
+ * @function setEvent
+ */
+const setEvent = () => {
+    
+};
+
+onReadyPromise()
+.then(init)
+.catch((e) => {
+    console.error(e);
 });
