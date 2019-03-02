@@ -37,9 +37,26 @@ const init = () => {
 const createDom = () => {
     const nodes = [];
 
-    // test
-    nodes.push(htmlToNode('<h1>test</h1>'));
-    nodes.push(htmlToNode('<p>testです</p>'));
+    let sec1 = '';
+    sec1 += `<section>`;
+    sec1 += `<h2>置換文字列</h2>`;
+    sec1 += `<ol id="replaceStrings">`;
+    sec1 += `<li><input class="before" /><span> ⇒ </span><input class="after" /></li>`;
+    sec1 += `</ol>`;
+    sec1 += `</section>`;
+
+    let sec2 = '';
+    sec2 += `<section>`;
+    sec2 += `<h2>置換対象</h2>`;
+    sec2 += `<div id="replaceTarget">`;
+    sec2 += `<textarea id="before"></textarea>`;
+    sec2 += `<textarea id="before"></textarea>`;
+    sec2 += `</div>`;
+    sec2 += `<button type="button" >実行</button>`;
+    sec2 += `</section>`;
+
+    nodes.push(htmlToNode(sec1));
+    nodes.push(htmlToNode(sec2));
     
     const fragment = document.createDocumentFragment();
     nodes.forEach(node => {
