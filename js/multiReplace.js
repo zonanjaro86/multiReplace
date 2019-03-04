@@ -1,3 +1,13 @@
+/*
+ * 定数
+ */
+    const ID_REPLACE_STRINGS = 'replaceStrings';
+    const ID_REPLACE_TARGET = 'replaceTarget';
+    const ID_BTN_EXECUTE = 'btn_execute';
+    const CLS_REPLACE_STRING_BEFORE = 'beforeString';
+    const CLS_REPLACE_STRING_AFTER = 'afterString';
+    const CLS_REPLACE_TARGET = 'resultWrapper';
+
 /**
  * ページ読み込み後の非同期処理起点
  * 
@@ -35,13 +45,6 @@ const init = () => {
  * @function init
  */
 const createDom = () => {
-    const ID_REPLACE_STRINGS = 'replaceStrings';
-    const ID_REPLACE_TARGET = 'replaceTarget';
-    const ID_BTN_EXECUTE = 'btn_execute';
-    const CLS_REPLACE_STRING_BEFORE = 'beforeString';
-    const CLS_REPLACE_STRING_AFTER = 'afterString';
-    const CLS_REPLACE_TARGET = 'resultWrapper';
-
     const nodes = [];
 
     let sec1 = '';
