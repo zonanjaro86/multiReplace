@@ -58,6 +58,7 @@ const createDom = () => {
     sec1 += NODE_INPUT_ROW;
     sec1 += `</ol>`;
     sec1 += `</section>`;
+    nodes.push(htmlToNode(sec1));
 
     let sec2 = '';
     sec2 += `<section>`;
@@ -68,8 +69,6 @@ const createDom = () => {
     sec2 += `</div>`;
     sec2 += `<button id="${ID_BTN_EXECUTE}" type="button" >実行</button>`;
     sec2 += `</section>`;
-
-    nodes.push(htmlToNode(sec1));
     nodes.push(htmlToNode(sec2));
     
     const fragment = document.createDocumentFragment();
