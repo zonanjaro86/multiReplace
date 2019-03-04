@@ -77,6 +77,9 @@ const createDom = () => {
         fragment.appendChild(node);
     });
     document.body.appendChild(fragment);
+
+    // 初期表示時に4列表示する
+    [2,3,4].forEach(addInputRow);
 };
 
 /**
