@@ -8,6 +8,8 @@
     const CLS_REPLACE_STRING_AFTER = 'afterString';
     const CLS_REPLACE_TARGET = 'resultWrapper';
 
+    const NODE_INPUT_ROW = `<li><input class="${CLS_REPLACE_STRING_BEFORE}" /><span> ⇒ </span><input class="${CLS_REPLACE_STRING_AFTER}" /></li>`;
+
 /**
  * ページ読み込み後の非同期処理起点
  * 
@@ -51,7 +53,7 @@ const createDom = () => {
     sec1 += `<section>`;
     sec1 += `<h2>置換文字列</h2>`;
     sec1 += `<ol id="${ID_REPLACE_STRINGS}">`;
-    sec1 += `<li><input class="${CLS_REPLACE_STRING_BEFORE}" /><span> ⇒ </span><input class="${CLS_REPLACE_STRING_AFTER}" /></li>`;
+    sec1 += NODE_INPUT_ROW;
     sec1 += `</ol>`;
     sec1 += `</section>`;
 
@@ -102,8 +104,19 @@ const htmlToNode = (htmlStr) => {
     return tmpElement.firstChild;
 }
 
+/**
+ * 置換文字列入力行を1行追加
+ */
+const addInputRow = () => {
+    const ol = document.getElementById(ID_REPLACE_STRINGS);
+    if (ol) {
+        ol.appendChild(htmlToNode(NODE_INPUT_ROW));
+    }
+};
+
 onReadyPromise()
 .then(init)
+.then(addInputRow)
 .catch((e) => {
     console.error(e);
 });
