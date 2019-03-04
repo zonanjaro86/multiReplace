@@ -48,9 +48,9 @@ const createDom = () => {
     let sec2 = '';
     sec2 += `<section>`;
     sec2 += `<h2>置換対象</h2>`;
-    sec2 += `<div id="replaceTarget">`;
+    sec2 += `<div id="replaceTarget" class="resultWrapper">`;
     sec2 += `<textarea id="before"></textarea>`;
-    sec2 += `<textarea id="before"></textarea>`;
+    sec2 += `<textarea id="after"></textarea>`;
     sec2 += `</div>`;
     sec2 += `<button type="button" >実行</button>`;
     sec2 += `</section>`;

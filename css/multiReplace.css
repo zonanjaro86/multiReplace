@@ -1,0 +1,11 @@
+div.resultWrapper {
+    display: flex;
+    
+}
+
+div.resultWrapper textarea {
+    margin: 1em;
+    flex-grow: 1;
+    min-height: 20em;
+    resize: vertical;
+}
