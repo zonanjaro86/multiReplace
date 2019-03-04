@@ -1,18 +1,18 @@
 /*
  * 定数
  */
-    const ID_CHK_USE_REGEXP = 'useRegExp';
-    const ID_CHK_CASE_SENSITIVE = 'caseSensitive';
-    const ID_CHK_MULTILINE = 'multiList';
-    const ID_REPLACE_STRINGS = 'replaceStrings';
-    const ID_REPLACE_TARGET = 'replaceTarget';
-    const ID_REPLACE_RESULT = 'replaceResult';
-    const ID_BTN_ADDROW = 'btn_addRow';
-    const ID_BTN_EXECUTE = 'btn_execute';
-    const CLS_REPLACE_STRING_BEFORE = 'beforeString';
-    const CLS_REPLACE_STRING_AFTER = 'afterString';
+    const ID_CHK_USE_REGEXP          = 'useRegExp';
+    const ID_CHK_CASE_SENSITIVE      = 'caseSensitive';
+    const ID_CHK_MULTILINE           = 'multiList';
+    const ID_REPLACE_STRINGS         = 'replaceStrings';
+    const ID_REPLACE_TARGET          = 'replaceTarget';
+    const ID_REPLACE_RESULT          = 'replaceResult';
+    const ID_BTN_ADDROW              = 'btn_addRow';
+    const ID_BTN_EXECUTE             = 'btn_execute';
+    const CLS_REPLACE_STRING_BEFORE  = 'beforeString';
+    const CLS_REPLACE_STRING_AFTER   = 'afterString';
     const CLS_REPLACE_TARGET_WRAPPER = 'resultWrapper';
-    const CLS_BTN_DEL = 'btn_del';
+    const CLS_BTN_DEL                = 'btn_del';
 
     const NODE_INPUT_ROW = `<li><input name="${CLS_REPLACE_STRING_BEFORE}" /><span> ⇒ </span><input name="${CLS_REPLACE_STRING_AFTER}" /></li>`;
 
@@ -57,30 +57,30 @@ const createDom = () => {
 
     let sec1 = ''
     + `<fieldSet>`
-    + `<legend>Setting</legend>`
-    + `<input id="${ID_CHK_USE_REGEXP}" type="checkbox" checked><label for="${ID_CHK_USE_REGEXP}">Use regexp </label>`
-    + `<input id="${ID_CHK_CASE_SENSITIVE}" type="checkbox"><label for="${ID_CHK_CASE_SENSITIVE}">Case sensitive </label>`
-    + `<input id="${ID_CHK_MULTILINE}" type="checkbox"><label for="${ID_CHK_MULTILINE}">Multi line(β) </label>`
+        + `<legend>Setting</legend>`
+        + `<input id="${ID_CHK_USE_REGEXP}" type="checkbox" checked><label for="${ID_CHK_USE_REGEXP}">Use regexp </label>`
+        + `<input id="${ID_CHK_CASE_SENSITIVE}" type="checkbox"><label for="${ID_CHK_CASE_SENSITIVE}">Case sensitive </label>`
+        + `<input id="${ID_CHK_MULTILINE}" type="checkbox"><label for="${ID_CHK_MULTILINE}">Multi line(β) </label>`
     + `</fieldSet>`;
     nodes.push(htmlToNode(sec1));
 
     let sec2 = ''
     + `<fieldSet>`
-    + `<legend>Replace Strings</legend>`
-    + `<button id="${ID_BTN_ADDROW}" type="button">Add row</button>`
-    + `<ol id="${ID_REPLACE_STRINGS}">`
-    + NODE_INPUT_ROW
-    + `</ol>`
+        + `<legend>Replace Strings</legend>`
+        + `<button id="${ID_BTN_ADDROW}" type="button">Add row</button>`
+        + `<ol id="${ID_REPLACE_STRINGS}">`
+            + NODE_INPUT_ROW
+        + `</ol>`
     + `</fieldSet>`;
     nodes.push(htmlToNode(sec2));
 
     let sec3 = ''
     + `<section>`
-    + `<div id="" class="${CLS_REPLACE_TARGET_WRAPPER}">`
-    + `<div>Before<textarea id="${ID_REPLACE_TARGET}"></textarea></div>`
-    + `<div>After<textarea id="${ID_REPLACE_RESULT}" readonly></textarea></div>`
-    + `</div>`
-    + `<button id="${ID_BTN_EXECUTE}" type="button" >execute</button>`
+        + `<div id="" class="${CLS_REPLACE_TARGET_WRAPPER}">`
+            + `<div>Before<textarea id="${ID_REPLACE_TARGET}"         ></textarea></div>`
+            + `<div>After <textarea id="${ID_REPLACE_RESULT}" readonly></textarea></div>`
+        + `</div>`
+        + `<button id="${ID_BTN_EXECUTE}" type="button" >execute</button>`
     + `</section>`;
     nodes.push(htmlToNode(sec3));
     
@@ -116,7 +116,7 @@ const setEvent = () => {
 /**
  * HTML文字列をノードへ変換
  * 
- * @function
+ * @function htmlToNode
  * @param {String} htmlStr
  * @return {Node}
  */
@@ -133,6 +133,8 @@ const htmlToNode = (htmlStr) => {
 
 /**
  * 置換文字列入力行を1行追加
+ * 
+ * @function addInputRow
  */
 const addInputRow = () => {
     const ol = document.getElementById(ID_REPLACE_STRINGS);
@@ -152,12 +154,14 @@ const delInputRow = (e) => {
 
 /**
  * 置換実行処理
+ * 
+ * @function executeMultiReplace
  */
 const executeMultiReplace = () => {
     // 設定を取得
-    const useRegExp = document.getElementById(ID_CHK_USE_REGEXP) ? document.getElementById(ID_CHK_USE_REGEXP).checked : false;
+    const useRegExp       = document.getElementById(ID_CHK_USE_REGEXP)     ? document.getElementById(ID_CHK_USE_REGEXP).checked     : false;
     const isCaseSensitive = document.getElementById(ID_CHK_CASE_SENSITIVE) ? document.getElementById(ID_CHK_CASE_SENSITIVE).checked : false;
-    const isMultiLine = document.getElementById(ID_CHK_MULTILINE) ? document.getElementById(ID_CHK_MULTILINE).checked : false;
+    const isMultiLine     = document.getElementById(ID_CHK_MULTILINE)      ? document.getElementById(ID_CHK_MULTILINE).checked      : false;
     
 
     // 置換対象を取得
@@ -201,14 +205,15 @@ const executeMultiReplace = () => {
 /**
  * 複数文字列について置換する
  * 
- * @param {string} targetStr 置換対象
+ * @function multiReplace
+ * @param {string}   targetStr 置換対象
  * @param {Object[]} replaceStrings 置換文字列のリスト
- * @param {string} replaceStrings[].before 置換前の文字列
- * @param {string} replaceStrings[].after 置換後の文字列
- * @param {Object} option
- * @param {boolean} [option.useRegExp = false] 正規表現を使うかどうか
- * @param {boolean} [option.isCaseSensitive = false] 大文字と小文字を区別するか
- * @param {boolean} [option.isMultiLine = false] 複数行に対して
+ * @param {string}   replaceStrings[].before 置換前の文字列
+ * @param {string}   replaceStrings[].after 置換後の文字列
+ * @param {Object}   option
+ * @param {boolean}  [option.useRegExp = false] 正規表現を使うかどうか
+ * @param {boolean}  [option.isCaseSensitive = false] 大文字と小文字を区別するか
+ * @param {boolean}  [option.isMultiLine = false] 複数行に対して
  * @return {string}
  */
 export const multiReplace = (targetStr, replaceStrings, option = {}) => {
@@ -243,6 +248,9 @@ export const multiReplace = (targetStr, replaceStrings, option = {}) => {
 
 /**
  * エスケープシーケンスを戻す
+ * 
+ * @param {string} str
+ * @return {string}
  */
 const replaceEscapeSequence = (str) => {
     return str
