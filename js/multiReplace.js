@@ -3,6 +3,7 @@
  */
     const ID_REPLACE_STRINGS = 'replaceStrings';
     const ID_REPLACE_TARGET = 'replaceTarget';
+    const ID_BTN_ADDROW = 'btn_addRow';
     const ID_BTN_EXECUTE = 'btn_execute';
     const CLS_REPLACE_STRING_BEFORE = 'beforeString';
     const CLS_REPLACE_STRING_AFTER = 'afterString';
@@ -52,6 +53,7 @@ const createDom = () => {
     let sec1 = '';
     sec1 += `<section>`;
     sec1 += `<h2>置換文字列</h2>`;
+    sec1 += `<button id="${ID_BTN_ADDROW}" type="button">行追加</button>`;
     sec1 += `<ol id="${ID_REPLACE_STRINGS}">`;
     sec1 += NODE_INPUT_ROW;
     sec1 += `</ol>`;
@@ -83,7 +85,11 @@ const createDom = () => {
  * @function setEvent
  */
 const setEvent = () => {
-    
+    // 行追加ボタンイベント
+    const btn_addRow = document.getElementById(ID_BTN_ADDROW);
+    if (btn_addRow) {
+        btn_addRow.addEventListener('click', addInputRow);
+    }
 };
 
 /**
@@ -116,7 +122,6 @@ const addInputRow = () => {
 
 onReadyPromise()
 .then(init)
-.then(addInputRow)
 .catch((e) => {
     console.error(e);
 });
