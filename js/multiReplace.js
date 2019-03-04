@@ -146,10 +146,12 @@ const executeMultiReplace = () => {
         const lists = document.getElementById(ID_REPLACE_STRINGS).children;
         for (const elem of lists) {
             if (elem && elem.children) {
-                const before = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
-                const after = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
-                if (before !== 'undefined' && after !== 'undefined') {
-                    replaceStrings.push({before:before.value, after:after.value});
+                const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
+                const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
+                if (beforeInput !== 'undefined' && afterInput !== 'undefined') {
+                    const before = replaceEscapeSequence(beforeInput.value);
+                    const after = replaceEscapeSequence(afterInput.value);
+                    replaceStrings.push({before, after});
                 }
             }
         }
@@ -182,6 +184,16 @@ export const multiReplace = (targetStr, replaceStrings) => {
     });
     return result;
 };
+
+/**
+ * エスケープシーケンスを戻す
+ */
+const replaceEscapeSequence = (str) => {
+    return str
+    .split('\\n').join('\n')
+    .split('\\r').join('\r')
+    .split('\\t').join('\t');
+}
 
 onReadyPromise()
 .then(init)
