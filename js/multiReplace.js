@@ -58,7 +58,7 @@ const createDom = () => {
     let sec1 = ''
     + `<fieldSet>`
     + `<legend>Setting</legend>`
-    + `<input id="${ID_CHK_USE_REGEXP}" type="checkbox"><label for="${ID_CHK_USE_REGEXP}">Use regexp </label>`
+    + `<input id="${ID_CHK_USE_REGEXP}" type="checkbox" checked><label for="${ID_CHK_USE_REGEXP}">Use regexp </label>`
     + `<input id="${ID_CHK_CASE_SENSITIVE}" type="checkbox"><label for="${ID_CHK_CASE_SENSITIVE}">Case sensitive </label>`
     + `<input id="${ID_CHK_MULTILINE}" type="checkbox"><label for="${ID_CHK_MULTILINE}">Multi line(β) </label>`
     + `</fieldSet>`;
