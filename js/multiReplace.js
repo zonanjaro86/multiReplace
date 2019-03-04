@@ -78,7 +78,7 @@ const createDom = () => {
     + `<section>`
     + `<div id="" class="${CLS_REPLACE_TARGET_WRAPPER}">`
     + `<div>Before<textarea id="${ID_REPLACE_TARGET}"></textarea></div>`
-    + `<div>After<textarea id="${ID_REPLACE_RESULT}"></textarea></div>`
+    + `<div>After<textarea id="${ID_REPLACE_RESULT}" readonly></textarea></div>`
     + `</div>`
     + `<button id="${ID_BTN_EXECUTE}" type="button" >execute</button>`
     + `</section>`;
