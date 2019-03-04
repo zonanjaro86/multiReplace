@@ -55,8 +55,8 @@ const createDom = () => {
 
     let sec1 = '';
     sec1 += `<section>`;
-    sec1 += `<h2>置換文字列</h2>`;
-    sec1 += `<button id="${ID_BTN_ADDROW}" type="button">行追加</button>`;
+    sec1 += `<h2>Replace Strings</h2>`;
+    sec1 += `<button id="${ID_BTN_ADDROW}" type="button">Add row</button>`;
     sec1 += `<ol id="${ID_REPLACE_STRINGS}">`;
     sec1 += NODE_INPUT_ROW;
     sec1 += `</ol>`;
@@ -65,12 +65,12 @@ const createDom = () => {
 
     let sec2 = '';
     sec2 += `<section>`;
-    sec2 += `<h2>置換対象</h2>`;
+    sec2 += `<h2>Target</h2>`;
     sec2 += `<div id="" class="${CLS_REPLACE_TARGET_WRAPPER}">`;
     sec2 += `<textarea id="${ID_REPLACE_TARGET}"></textarea>`;
     sec2 += `<textarea id="${ID_REPLACE_RESULT}"></textarea>`;
     sec2 += `</div>`;
-    sec2 += `<button id="${ID_BTN_EXECUTE}" type="button" >実行</button>`;
+    sec2 += `<button id="${ID_BTN_EXECUTE}" type="button" >execute</button>`;
     sec2 += `</section>`;
     nodes.push(htmlToNode(sec2));
     
