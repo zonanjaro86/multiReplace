@@ -12,7 +12,6 @@
     const CLS_BTN_DEL = 'btn_del';
 
     const NODE_INPUT_ROW = `<li><input name="${CLS_REPLACE_STRING_BEFORE}" /><span> ⇒ </span><input name="${CLS_REPLACE_STRING_AFTER}" /></li>`;
-    const NODE_INPUT_ROW2 = `<li><input name="${CLS_REPLACE_STRING_BEFORE}" /><span> ⇒ </span><input name="${CLS_REPLACE_STRING_AFTER}" /></li>`;
 
 /**
  * ページ読み込み後の非同期処理起点
@@ -54,21 +53,20 @@ const createDom = () => {
     const nodes = [];
 
     let sec1 = '';
-    sec1 += `<section>`;
-    sec1 += `<h2>Replace Strings</h2>`;
+    sec1 += `<fieldSet>`;
+    sec1 += `<legend>Replace Strings</legend>`;
     sec1 += `<button id="${ID_BTN_ADDROW}" type="button">Add row</button>`;
     sec1 += `<ol id="${ID_REPLACE_STRINGS}">`;
     sec1 += NODE_INPUT_ROW;
     sec1 += `</ol>`;
-    sec1 += `</section>`;
+    sec1 += `</fieldSet>`;
     nodes.push(htmlToNode(sec1));
 
     let sec2 = '';
     sec2 += `<section>`;
-    sec2 += `<h2>Target</h2>`;
     sec2 += `<div id="" class="${CLS_REPLACE_TARGET_WRAPPER}">`;
-    sec2 += `<textarea id="${ID_REPLACE_TARGET}"></textarea>`;
-    sec2 += `<textarea id="${ID_REPLACE_RESULT}"></textarea>`;
+    sec2 += `<div>Before<textarea id="${ID_REPLACE_TARGET}"></textarea></div>`;
+    sec2 += `<div>After<textarea id="${ID_REPLACE_RESULT}"></textarea></div>`;
     sec2 += `</div>`;
     sec2 += `<button id="${ID_BTN_EXECUTE}" type="button" >execute</button>`;
     sec2 += `</section>`;
