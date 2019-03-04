@@ -119,8 +119,28 @@ const addInputRow = () => {
     }
 };
 
+/**
+ * 複数文字列について置換する
+ * 
+ * @param {string} targetStr 
+ * @param {Object[]} replaceStrings
+ * @param {string} replaceStrings.before
+ * @param {string} replaceStrings.after
+ * @return {string}
+ */
+export const multiReplace = (targetStr, replaceStrings) => {
+    let result = targetStr;
+    replaceStrings.forEach(replaceString => {
+        result = result.split(replaceString.before).join(replaceString.after);
+    });
+    return result;
+};
+
 onReadyPromise()
 .then(init)
+.then(() => {
+    console.log(multiReplace('aiueokakikukeo', [{before:'a', after:'b'}, {before:'o', after:'z'}]));
+})
 .catch((e) => {
     console.error(e);
 });
