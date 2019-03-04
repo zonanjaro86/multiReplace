@@ -9,8 +9,10 @@
     const CLS_REPLACE_STRING_BEFORE = 'beforeString';
     const CLS_REPLACE_STRING_AFTER = 'afterString';
     const CLS_REPLACE_TARGET_WRAPPER = 'resultWrapper';
+    const CLS_BTN_DEL = 'btn_del';
 
     const NODE_INPUT_ROW = `<li><input name="${CLS_REPLACE_STRING_BEFORE}" /><span> ⇒ </span><input name="${CLS_REPLACE_STRING_AFTER}" /></li>`;
+    const NODE_INPUT_ROW2 = `<li><input name="${CLS_REPLACE_STRING_BEFORE}" /><span> ⇒ </span><input name="${CLS_REPLACE_STRING_AFTER}" /></li>`;
 
 /**
  * ページ読み込み後の非同期処理起点
@@ -103,7 +105,7 @@ const setEvent = () => {
  * 
  * @function
  * @param {String} htmlStr
- * @return {NodeList}
+ * @return {Node}
  */
 const htmlToNode = (htmlStr) => {
     if (!htmlStr || typeof htmlStr !== 'string') return;
@@ -122,9 +124,18 @@ const htmlToNode = (htmlStr) => {
 const addInputRow = () => {
     const ol = document.getElementById(ID_REPLACE_STRINGS);
     if (ol) {
-        ol.appendChild(htmlToNode(NODE_INPUT_ROW));
+        const newRow = htmlToNode(NODE_INPUT_ROW);
+        const delButton = htmlToNode(`<button class="${CLS_BTN_DEL}" style="margin-left:.5em;">del</button>`);
+        delButton.addEventListener('click', delInputRow);
+        newRow.appendChild(delButton);
+        ol.appendChild(newRow);
     }
 };
+
+const delInputRow = (e) => {
+    const delElm = e.target.parentNode;
+    delElm.parentNode.removeChild(delElm);
+}
 
 /**
  * 置換実行処理
