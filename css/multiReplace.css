@@ -1,11 +1,23 @@
-div.resultWrapper {
-    display: flex;
-    
+body {
+    max-width: 1080px;
+}
+#replaceStrings li input {
+    width: 40%;
+    min-width: 10em;
 }
 
-div.resultWrapper textarea {
-    margin: 1em;
+div.resultWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+div.resultWrapper>div {
+    margin: .5em;
     flex-grow: 1;
+}
+div.resultWrapper>div>textarea {
+    width:100%;
     min-height: 20em;
     resize: vertical;
+    white-space: pre;
 }
