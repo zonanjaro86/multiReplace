@@ -1,6 +1,10 @@
 body {
     background-color: ghostwhite
 }
+h1 {
+    font-size: large;
+    color: darkmagenta;
+}
 fieldset {
     max-width: 1080px;
 }

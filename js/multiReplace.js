@@ -55,6 +55,9 @@ const init = () => {
 const createDom = () => {
     const nodes = [];
 
+    let title = `<h1>Multi Replace</h1>`;
+    nodes.push(htmlToNode(title));
+
     let sec1 = ''
     + `<fieldSet>`
         + `<legend>Setting</legend>`
