@@ -175,22 +175,7 @@ const executeMultiReplace = () => {
     })();
 
     // 置換文字列を取得
-    const replaceStrings = (() => {
-        let replaceStrings = [];
-        const lists = document.getElementById(ID_REPLACE_STRINGS).children;
-        for (const elem of lists) {
-            if (elem && elem.children) {
-                const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
-                const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
-                if (beforeInput !== 'undefined' && afterInput !== 'undefined') {
-                    const before = replaceEscapeSequence(beforeInput.value);
-                    const after = replaceEscapeSequence(afterInput.value);
-                    replaceStrings.push({before, after});
-                }
-            }
-        }
-        return replaceStrings;
-    })();
+    const replaceStrings = getReplaceStrings();
     
     // 置換実行
     const result = multiReplace(targetStr, replaceStrings, {useRegExp, isCaseSensitive, isMultiLine});
@@ -203,13 +188,40 @@ const executeMultiReplace = () => {
 }
 
 /**
+ * @typedef {Object} replaceString
+ * @property {string} before
+ * @property {string} after
+ */
+
+/**
+ * 置換文字列を取得
+ * 
+ * @function getReplaceStrings
+ * @return {replaceString}
+ */
+const getReplaceStrings = () => {
+    let replaceStrings = [];
+    const lists = document.getElementById(ID_REPLACE_STRINGS).children;
+    for (const elem of lists) {
+        if (elem && elem.children) {
+            const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
+            const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
+            if (beforeInput !== 'undefined' && afterInput !== 'undefined') {
+                const before = replaceEscapeSequence(beforeInput.value);
+                const after = replaceEscapeSequence(afterInput.value);
+                replaceStrings.push({before, after});
+            }
+        }
+    }
+    return replaceStrings;
+}
+
+/**
  * 複数文字列について置換する
  * 
  * @function multiReplace
  * @param {string}   targetStr 置換対象
- * @param {Object[]} replaceStrings 置換文字列のリスト
- * @param {string}   replaceStrings[].before 置換前の文字列
- * @param {string}   replaceStrings[].after 置換後の文字列
+ * @param {replaceString[]} replaceStrings 置換文字列のリスト
  * @param {Object}   option
  * @param {boolean}  [option.useRegExp = false] 正規表現を使うかどうか
  * @param {boolean}  [option.isCaseSensitive = false] 大文字と小文字を区別するか
