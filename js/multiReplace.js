@@ -13,6 +13,7 @@
     const CLS_REPLACE_STRING_AFTER   = 'afterString';
     const CLS_REPLACE_TARGET_WRAPPER = 'resultWrapper';
     const CLS_BTN_DEL                = 'btn_del';
+    const CLS_TEXTAREA_RESIZE        = 'resize';
 
     const NODE_INPUT_ROW = `<li><input name="${CLS_REPLACE_STRING_BEFORE}" /><span> ⇒ </span><input name="${CLS_REPLACE_STRING_AFTER}" /></li>`;
 
@@ -80,8 +81,8 @@ const createDom = () => {
     let sec3 = ''
     + `<section>`
         + `<div id="" class="${CLS_REPLACE_TARGET_WRAPPER}">`
-            + `<div>Before<textarea id="${ID_REPLACE_TARGET}"         ></textarea></div>`
-            + `<div>After <textarea id="${ID_REPLACE_RESULT}" readonly></textarea></div>`
+            + `<div>Before<textarea id="${ID_REPLACE_TARGET}" class="${CLS_TEXTAREA_RESIZE}"         ></textarea></div>`
+            + `<div>After <textarea id="${ID_REPLACE_RESULT}" class="${CLS_TEXTAREA_RESIZE}" readonly></textarea></div>`
         + `</div>`
         + `<button id="${ID_BTN_EXECUTE}" type="button" >execute</button>`
     + `</section>`;
@@ -114,6 +115,12 @@ const setEvent = () => {
     if (btn_execute) {
         btn_execute.addEventListener('click', executeMultiReplace);
     }
+
+    // テキストエリア拡張イベント
+    const textareas = document.querySelectorAll(`textarea.${CLS_TEXTAREA_RESIZE}`);
+    textareas.forEach(textarea => {
+        textarea.addEventListener('input', resizeTextAreaEvent);
+    });
 };
 
 /**
@@ -187,6 +194,7 @@ const executeMultiReplace = () => {
     const replaceResult = document.getElementById(ID_REPLACE_RESULT);
     if (replaceResult) {
         replaceResult.value = result;
+        resizeTextArea(replaceResult);
     }
 }
 
@@ -234,7 +242,6 @@ const getReplaceStrings = () => {
 export const multiReplace = (targetStr, replaceStrings, option = {}) => {
     let result = targetStr;
     const {useRegExp = false, isCaseSensitive = false, isMultiLine = false} = option;
-    console.log(useRegExp, isCaseSensitive, isMultiLine);
     if (useRegExp) {
         // 正規表現を使用
         const flags = 'g' + (isCaseSensitive ? '' : 'i')
@@ -272,6 +279,20 @@ const replaceEscapeSequence = (str) => {
     .split('\\n').join('\n')
     .split('\\r').join('\r')
     .split('\\t').join('\t');
+}
+
+/**
+ * テキストエリアの高さを自動で調整する
+ * 
+ * @function resizeTextArea
+ * @param {}
+ */
+const resizeTextAreaEvent = e => {
+    resizeTextArea(e.target);
+}
+const resizeTextArea = target => {
+    const lines = (target.value + '\n').match(/\n/g).length;
+    target.style.height = `${lines + 1}em`;
 }
 
 onReadyPromise()

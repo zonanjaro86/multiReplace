@@ -24,8 +24,8 @@ div.resultWrapper>div {
 }
 div.resultWrapper>div>textarea {
     width:100%;
-    min-height: 20em;
-    height: 30em;
+    min-height: 10em;
+    max-height: 40em;
     resize: vertical;
     white-space: pre;
 }
