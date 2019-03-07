@@ -157,6 +157,11 @@ const addInputRow = () => {
     }
 };
 
+/**
+ * delボタンをクリックした置換文字列入力行を削除
+ * 
+ * @param {Event} e 
+ */
 const delInputRow = (e) => {
     const delElm = e.target.parentNode;
     delElm.parentNode.removeChild(delElm);
@@ -282,14 +287,20 @@ const replaceEscapeSequence = (str) => {
 }
 
 /**
- * テキストエリアの高さを自動で調整する
+ * テキストエリアに入力があった際に高さを自動で調整する
  * 
- * @function resizeTextArea
- * @param {}
+ * @function resizeTextAreaEvent
+ * @param {Event} e
  */
 const resizeTextAreaEvent = e => {
     resizeTextArea(e.target);
 }
+
+/**
+ * テキストエリアの高さを改行に応じて調整する
+ * 
+ * @param {Element} target 
+ */
 const resizeTextArea = target => {
     const lines = (target.value + '\n').match(/\n/g).length;
     target.style.height = `${lines + 1}em`;
