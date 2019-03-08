@@ -265,17 +265,30 @@ const executeMultiReplace = () => {
  */
 const getReplaceStrings = () => {
     let replaceStrings = [];
-    const lists = document.getElementById(ID_REPLACE_STRINGS).children;
-    for (const elem of lists) {
-        if (elem && elem.children) {
-            const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
-            const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
-            if (beforeInput !== 'undefined' && afterInput !== 'undefined') {
-                const before = replaceEscapeSequence(beforeInput.value);
-                const after = replaceEscapeSequence(afterInput.value);
-                replaceStrings.push({before, after});
+
+    if (mode === 'mode_input') {
+        const lists = document.getElementById(ID_REPLACE_STRINGS).children;
+        for (const elem of lists) {
+            if (elem && elem.children) {
+                const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
+                const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
+                if (beforeInput !== 'undefined' && afterInput !== 'undefined') {
+                    const before = replaceEscapeSequence(beforeInput.value);
+                    const after = replaceEscapeSequence(afterInput.value);
+                    replaceStrings.push({before, after});
+                }
             }
         }
+    }
+
+    else if (mode === 'mode_text') {
+        const input = document.getElementById(ID_REPLACE_STRINGS_TEXT) !== null ? document.getElementById(ID_REPLACE_STRINGS_TEXT).value : '';
+        input.split('\n').forEach(line => {
+            const [before, after] = line.split('\t');
+            if (before !== undefined && after !== undefined) {
+                replaceStrings.push({before, after});
+            }
+        });
     }
     return replaceStrings;
 }
@@ -355,7 +368,7 @@ const resizeTextArea = target => {
 }
 
 const inputTestData = () => {
-    const testData = [
+    const testData1 = [
         {before: 'before', after: 'after'},
         {before: '', after: ''}
     ];
@@ -363,19 +376,27 @@ const inputTestData = () => {
     const lists = document.getElementById(ID_REPLACE_STRINGS).children;
     
     // テストデータに足りない分だけ行追加
-    while (lists.length < testData.length) {
+    while (lists.length < testData1.length) {
         addInputRow();
     }
     
-    for (let i = 0; i < testData.length; i++) {
+    for (let i = 0; i < testData1.length; i++) {
         const elem = lists[i];
         if (elem && elem.children) {
             const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
             const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
-            beforeInput.value = testData[i].before;
-            afterInput.value = testData[i].after;
+            beforeInput.value = testData1[i].before;
+            afterInput.value = testData1[i].after;
         }
     }
+
+    const testData2 = [
+        ['before', 'after'].join('\t'),
+        ['', ''].join('\t'),
+        ['a'].join('\t'),
+        ['a', 'b', 'c', 'd'].join('\t')
+    ].join('\n');
+    document.getElementById(ID_REPLACE_STRINGS_TEXT).value = testData2;
 }
 
 onReadyPromise()
