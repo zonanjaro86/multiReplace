@@ -26,7 +26,7 @@
 /*
  * 変数
  */
-let mode = 'mode_input';  // 置換文字列の入力モード(mode_input, mode_text)
+let mode = 'mode_text';  // 置換文字列の入力モード(mode_input, mode_text)
 
 /**
  * ページ読み込み後の非同期処理起点
@@ -83,13 +83,13 @@ const createDom = () => {
     + `<fieldSet>`
         + `<legend>Replace Strings</legend>`
         + `<button id="${ID_BTN_CHANGE_MODE}">Change mode</button>`
-        + `<div class="${CLS_MODE_INPUT} ${CLS_BOX}">`
+        + `<div class="${CLS_MODE_INPUT} ${CLS_BOX} ${mode === 'mode_input' ? '' : CLS_DISABLE}">`
             + `<button id="${ID_BTN_ADDROW}" type="button">Add row</button>`
             + `<ol id="${ID_REPLACE_STRINGS}">`
                 + NODE_INPUT_ROW
             + `</ol>`
         + `</div>`
-        + `<div class="${CLS_MODE_TEXT} ${CLS_BOX} ${CLS_DISABLE}">`
+        + `<div class="${CLS_MODE_TEXT} ${CLS_BOX} ${mode === 'mode_input' ? CLS_DISABLE: ''}">`
             + `<textarea id="${ID_REPLACE_STRINGS_TEXT}" spellcheck="false" class="${CLS_TEXTAREA_RESIZE}"></textarea>`
         + `</div>`
     + `</fieldSet>`;
