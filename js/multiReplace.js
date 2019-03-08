@@ -20,6 +20,7 @@
     const CLS_REPLACE_TARGET_WRAPPER = 'resultWrapper';
     const CLS_BTN_DEL                = 'btn_del';
     const CLS_TEXTAREA_RESIZE        = 'resize';
+    const CLS_TEXTAREA_TAB_ENABLE    = 'tab_enable';
 
     const NODE_INPUT_ROW = `<li><input name="${CLS_REPLACE_STRING_BEFORE}" /><span> ⇒ </span><input name="${CLS_REPLACE_STRING_AFTER}" /></li>`;
 
@@ -90,7 +91,7 @@ const createDom = () => {
             + `</ol>`
         + `</div>`
         + `<div class="${CLS_MODE_TEXT} ${CLS_BOX} ${mode === 'mode_input' ? CLS_DISABLE: ''}">`
-            + `<textarea id="${ID_REPLACE_STRINGS_TEXT}" spellcheck="false" class="${CLS_TEXTAREA_RESIZE}"></textarea>`
+            + `<textarea id="${ID_REPLACE_STRINGS_TEXT}" spellcheck="false" class="${CLS_TEXTAREA_RESIZE} ${CLS_TEXTAREA_TAB_ENABLE}"></textarea>`
         + `</div>`
     + `</fieldSet>`;
     nodes.push(htmlToNode(sec2));
@@ -140,9 +141,15 @@ const setEvent = () => {
     }
 
     // テキストエリア拡張イベント
-    const textareas = document.querySelectorAll(`textarea.${CLS_TEXTAREA_RESIZE}`);
-    textareas.forEach(textarea => {
+    document.querySelectorAll(`textarea.${CLS_TEXTAREA_RESIZE}`)
+    .forEach(textarea => {
         textarea.addEventListener('input', resizeTextAreaEvent);
+    });
+
+    // テキストエリアにtab入力を許可
+    document.querySelectorAll(`textarea.${CLS_TEXTAREA_TAB_ENABLE}`)
+    .forEach(textarea => {
+        textarea.addEventListener('keydown', inputTab);
     });
 };
 
@@ -404,6 +411,15 @@ const resizeTextAreaEvent = e => {
 const resizeTextArea = target => {
     const lines = (target.value + '\n').match(/\n/g).length;
     target.style.height = `${lines + 1}em`;
+}
+
+const inputTab = e => {
+    if (e.key === 'Tab') {
+        const elem = e.target;
+        elem.value = '' + elem.value.substring(0, elem.selectionStart) + '\t' + elem.value.substring(elem.selectionEnd);
+        elem.selectionStart = elem.selectionEnd = elem.selectionStart + 1;
+        e.preventDefault();
+    }
 }
 
 const inputTestData = () => {
