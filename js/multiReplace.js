@@ -23,6 +23,11 @@
 
     const NODE_INPUT_ROW = `<li><input name="${CLS_REPLACE_STRING_BEFORE}" /><span> ⇒ </span><input name="${CLS_REPLACE_STRING_AFTER}" /></li>`;
 
+/*
+ * 変数
+ */
+let mode = 'mode_input';  // 置換文字列の入力モード(mode_input, mode_text)
+
 /**
  * ページ読み込み後の非同期処理起点
  * 
@@ -165,9 +170,23 @@ const htmlToNode = (htmlStr) => {
  * @function changeMode
  */
 const changeMode = () => {
-    document.querySelectorAll(`.${CLS_MODE_INPUT}, .${CLS_MODE_TEXT}`).forEach(elem => {
-        elem.classList.toggle(`${CLS_DISABLE}`);
-    });
+    if (mode === 'mode_input') {
+        mode = 'mode_text';
+        document.querySelectorAll(`.${CLS_MODE_INPUT}`).forEach(elem => {
+            elem.classList.add(`${CLS_DISABLE}`);
+        });
+        document.querySelectorAll(`.${CLS_MODE_TEXT}`).forEach(elem => {
+            elem.classList.remove(`${CLS_DISABLE}`);
+        });
+    } else {
+        mode = 'mode_input';
+        document.querySelectorAll(`.${CLS_MODE_INPUT}`).forEach(elem => {
+            elem.classList.remove(`${CLS_DISABLE}`);
+        });
+        document.querySelectorAll(`.${CLS_MODE_TEXT}`).forEach(elem => {
+            elem.classList.add(`${CLS_DISABLE}`);
+        });
+    }
 }
 
 /**
