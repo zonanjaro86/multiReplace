@@ -170,6 +170,10 @@ const htmlToNode = (htmlStr) => {
  * @function changeMode
  */
 const changeMode = () => {
+    // 現在の置換文字列を一時退避させる
+    const temp = getReplaceStrings();
+
+    // モード変更
     if (mode === 'mode_input') {
         mode = 'mode_text';
         document.querySelectorAll(`.${CLS_MODE_INPUT}`).forEach(elem => {
@@ -187,6 +191,9 @@ const changeMode = () => {
             elem.classList.add(`${CLS_DISABLE}`);
         });
     }
+
+    // 退避させた値をセット
+    setReplaceStrings(temp);
 }
 
 /**
@@ -198,7 +205,7 @@ const addInputRow = () => {
     const ol = document.getElementById(ID_REPLACE_STRINGS);
     if (ol) {
         const newRow = htmlToNode(NODE_INPUT_ROW);
-        const delButton = htmlToNode(`<button class="${CLS_BTN_DEL}" style="margin-left:.5em;" tabIndex="-1">del</button>`);
+        const delButton = htmlToNode(`<button class="${CLS_BTN_DEL}" tabIndex="-1">del</button>`);
         delButton.addEventListener('click', delInputRow);
         newRow.appendChild(delButton);
         ol.appendChild(newRow);
@@ -294,6 +301,38 @@ const getReplaceStrings = () => {
 }
 
 /**
+ * 置換文字列を入力
+ * 
+ * @function setReplaceStrings
+ * @param {replaceString[]} replaceStrings
+ */
+const setReplaceStrings = (replaceStrings) => {
+    if (mode === 'mode_input') {
+        const lists = document.getElementById(ID_REPLACE_STRINGS).children;
+    
+        // データに足りない分だけ行追加
+        while (lists.length < replaceStrings.length) {
+            addInputRow();
+        }
+        
+        for (let i = 0; i < replaceStrings.length; i++) {
+            const elem = lists[i];
+            if (elem && elem.children) {
+                const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
+                const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
+                beforeInput.value = replaceStrings[i].before;
+                afterInput.value = replaceStrings[i].after;
+            }
+        }
+    }
+    else if (mode === 'mode_text') {
+        document.getElementById(ID_REPLACE_STRINGS_TEXT).value = replaceStrings.map(replaceString => {
+            return replaceString.before + '\t' + replaceString.after;
+        }).join('\n');
+    }
+}
+
+/**
  * 複数文字列について置換する
  * 
  * @function multiReplace
@@ -372,31 +411,8 @@ const inputTestData = () => {
         {before: 'before', after: 'after'},
         {before: '', after: ''}
     ];
+    setReplaceStrings(testData1);
 
-    const lists = document.getElementById(ID_REPLACE_STRINGS).children;
-    
-    // テストデータに足りない分だけ行追加
-    while (lists.length < testData1.length) {
-        addInputRow();
-    }
-    
-    for (let i = 0; i < testData1.length; i++) {
-        const elem = lists[i];
-        if (elem && elem.children) {
-            const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
-            const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
-            beforeInput.value = testData1[i].before;
-            afterInput.value = testData1[i].after;
-        }
-    }
-
-    const testData2 = [
-        ['before', 'after'].join('\t'),
-        ['', ''].join('\t'),
-        ['a'].join('\t'),
-        ['a', 'b', 'c', 'd'].join('\t')
-    ].join('\n');
-    document.getElementById(ID_REPLACE_STRINGS_TEXT).value = testData2;
 }
 
 onReadyPromise()

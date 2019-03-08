@@ -32,6 +32,9 @@ div.resultWrapper>div>textarea {
     resize: vertical;
     white-space: pre;
 }
+button.btn_del {
+    margin-left: .5em;
+}
 
 #replaceStrings li input {
     width: 40%;
