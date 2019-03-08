@@ -401,7 +401,7 @@ const inputTestData = () => {
 
 onReadyPromise()
 .then(init)
-.then(inputTestData)
+//.then(inputTestData)
 .catch((e) => {
     console.error(e);
 });
