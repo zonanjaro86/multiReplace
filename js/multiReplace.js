@@ -198,7 +198,7 @@ const addInputRow = () => {
     const ol = document.getElementById(ID_REPLACE_STRINGS);
     if (ol) {
         const newRow = htmlToNode(NODE_INPUT_ROW);
-        const delButton = htmlToNode(`<button class="${CLS_BTN_DEL}" style="margin-left:.5em;" tabIndex="-1">del</button>`);
+        const delButton = htmlToNode(`<button class="${CLS_BTN_DEL}" tabIndex="-1">del</button>`);
         delButton.addEventListener('click', delInputRow);
         newRow.appendChild(delButton);
         ol.appendChild(newRow);
