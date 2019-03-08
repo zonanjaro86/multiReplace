@@ -272,7 +272,7 @@ const getReplaceStrings = () => {
             if (elem && elem.children) {
                 const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
                 const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
-                if (beforeInput !== 'undefined' && afterInput !== 'undefined') {
+                if (beforeInput !== undefined && afterInput !== undefined) {
                     const before = replaceEscapeSequence(beforeInput.value);
                     const after = replaceEscapeSequence(afterInput.value);
                     replaceStrings.push({before, after});
