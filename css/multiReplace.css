@@ -29,3 +29,7 @@ div.resultWrapper>div>textarea {
     resize: vertical;
     white-space: pre;
 }
+
+.disable {
+    display: none;
+}

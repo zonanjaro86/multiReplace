@@ -5,10 +5,16 @@
     const ID_CHK_CASE_SENSITIVE      = 'caseSensitive';
     const ID_CHK_MULTILINE           = 'multiList';
     const ID_REPLACE_STRINGS         = 'replaceStrings';
+    const ID_REPLACE_STRINGS_TEXT    = 'replaceStrings_text';
     const ID_REPLACE_TARGET          = 'replaceTarget';
     const ID_REPLACE_RESULT          = 'replaceResult';
+    const ID_BTN_CHANGE_MODE         = 'changeMode';
     const ID_BTN_ADDROW              = 'btn_addRow';
     const ID_BTN_EXECUTE             = 'btn_execute';
+    const CLS_DISABLE                = 'disable';
+    const CLS_BOX                    = 'box';
+    const CLS_MODE_INPUT             = 'mode_input';
+    const CLS_MODE_TEXT              = 'mode_text';
     const CLS_REPLACE_STRING_BEFORE  = 'beforeString';
     const CLS_REPLACE_STRING_AFTER   = 'afterString';
     const CLS_REPLACE_TARGET_WRAPPER = 'resultWrapper';
@@ -71,10 +77,16 @@ const createDom = () => {
     let sec2 = ''
     + `<fieldSet>`
         + `<legend>Replace Strings</legend>`
-        + `<button id="${ID_BTN_ADDROW}" type="button">Add row</button>`
-        + `<ol id="${ID_REPLACE_STRINGS}">`
-            + NODE_INPUT_ROW
-        + `</ol>`
+        + `<button id="${ID_BTN_CHANGE_MODE}">Change mode</button>`
+        + `<div class="${CLS_MODE_INPUT} ${CLS_BOX}">`
+            + `<button id="${ID_BTN_ADDROW}" type="button">Add row</button>`
+            + `<ol id="${ID_REPLACE_STRINGS}">`
+                + NODE_INPUT_ROW
+            + `</ol>`
+        + `</div>`
+        + `<div class="${CLS_MODE_TEXT} ${CLS_BOX} ${CLS_DISABLE}">`
+            + `<textarea id="${ID_REPLACE_STRINGS_TEXT}" spellcheck="false" class=""></textarea>`
+        + `</div>`
     + `</fieldSet>`;
     nodes.push(htmlToNode(sec2));
 
@@ -104,6 +116,12 @@ const createDom = () => {
  * @function setEvent
  */
 const setEvent = () => {
+    // 入力モード変更ボタンイベント
+    const btn_changeMode = document.getElementById(ID_BTN_CHANGE_MODE);
+    if (btn_changeMode) {
+        btn_changeMode.addEventListener('click', changeMode);
+    }
+
     // 行追加ボタンイベント
     const btn_addRow = document.getElementById(ID_BTN_ADDROW);
     if (btn_addRow) {
@@ -139,6 +157,17 @@ const htmlToNode = (htmlStr) => {
     tmpElement.innerHTML = htmlStr;
 
     return tmpElement.firstChild;
+}
+
+/**
+ * 置換文字列の入力モードを変更
+ * 
+ * @function changeMode
+ */
+const changeMode = () => {
+    document.querySelectorAll(`.${CLS_MODE_INPUT}, .${CLS_MODE_TEXT}`).forEach(elem => {
+        elem.classList.toggle(`${CLS_DISABLE}`);
+    });
 }
 
 /**
