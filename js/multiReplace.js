@@ -85,7 +85,7 @@ const createDom = () => {
             + `</ol>`
         + `</div>`
         + `<div class="${CLS_MODE_TEXT} ${CLS_BOX} ${CLS_DISABLE}">`
-            + `<textarea id="${ID_REPLACE_STRINGS_TEXT}" spellcheck="false" class=""></textarea>`
+            + `<textarea id="${ID_REPLACE_STRINGS_TEXT}" spellcheck="false" class="${CLS_TEXTAREA_RESIZE}"></textarea>`
         + `</div>`
     + `</fieldSet>`;
     nodes.push(htmlToNode(sec2));
