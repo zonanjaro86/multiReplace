@@ -335,8 +335,33 @@ const resizeTextArea = target => {
     target.style.height = `${lines + 1}em`;
 }
 
+const inputTestData = () => {
+    const testData = [
+        {before: 'before', after: 'after'},
+        {before: '', after: ''}
+    ];
+
+    const lists = document.getElementById(ID_REPLACE_STRINGS).children;
+    
+    // テストデータに足りない分だけ行追加
+    while (lists.length < testData.length) {
+        addInputRow();
+    }
+    
+    for (let i = 0; i < testData.length; i++) {
+        const elem = lists[i];
+        if (elem && elem.children) {
+            const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
+            const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
+            beforeInput.value = testData[i].before;
+            afterInput.value = testData[i].after;
+        }
+    }
+}
+
 onReadyPromise()
 .then(init)
+.then(inputTestData)
 .catch((e) => {
     console.error(e);
 });
