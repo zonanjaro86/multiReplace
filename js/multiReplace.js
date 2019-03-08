@@ -23,6 +23,11 @@
 
     const NODE_INPUT_ROW = `<li><input name="${CLS_REPLACE_STRING_BEFORE}" /><span> ⇒ </span><input name="${CLS_REPLACE_STRING_AFTER}" /></li>`;
 
+/*
+ * 変数
+ */
+let mode = 'mode_text';  // 置換文字列の入力モード(mode_input, mode_text)
+
 /**
  * ページ読み込み後の非同期処理起点
  * 
@@ -78,13 +83,13 @@ const createDom = () => {
     + `<fieldSet>`
         + `<legend>Replace Strings</legend>`
         + `<button id="${ID_BTN_CHANGE_MODE}">Change mode</button>`
-        + `<div class="${CLS_MODE_INPUT} ${CLS_BOX}">`
+        + `<div class="${CLS_MODE_INPUT} ${CLS_BOX} ${mode === 'mode_input' ? '' : CLS_DISABLE}">`
             + `<button id="${ID_BTN_ADDROW}" type="button">Add row</button>`
             + `<ol id="${ID_REPLACE_STRINGS}">`
                 + NODE_INPUT_ROW
             + `</ol>`
         + `</div>`
-        + `<div class="${CLS_MODE_TEXT} ${CLS_BOX} ${CLS_DISABLE}">`
+        + `<div class="${CLS_MODE_TEXT} ${CLS_BOX} ${mode === 'mode_input' ? CLS_DISABLE: ''}">`
             + `<textarea id="${ID_REPLACE_STRINGS_TEXT}" spellcheck="false" class="${CLS_TEXTAREA_RESIZE}"></textarea>`
         + `</div>`
     + `</fieldSet>`;
@@ -165,9 +170,23 @@ const htmlToNode = (htmlStr) => {
  * @function changeMode
  */
 const changeMode = () => {
-    document.querySelectorAll(`.${CLS_MODE_INPUT}, .${CLS_MODE_TEXT}`).forEach(elem => {
-        elem.classList.toggle(`${CLS_DISABLE}`);
-    });
+    if (mode === 'mode_input') {
+        mode = 'mode_text';
+        document.querySelectorAll(`.${CLS_MODE_INPUT}`).forEach(elem => {
+            elem.classList.add(`${CLS_DISABLE}`);
+        });
+        document.querySelectorAll(`.${CLS_MODE_TEXT}`).forEach(elem => {
+            elem.classList.remove(`${CLS_DISABLE}`);
+        });
+    } else {
+        mode = 'mode_input';
+        document.querySelectorAll(`.${CLS_MODE_INPUT}`).forEach(elem => {
+            elem.classList.remove(`${CLS_DISABLE}`);
+        });
+        document.querySelectorAll(`.${CLS_MODE_TEXT}`).forEach(elem => {
+            elem.classList.add(`${CLS_DISABLE}`);
+        });
+    }
 }
 
 /**
@@ -246,17 +265,30 @@ const executeMultiReplace = () => {
  */
 const getReplaceStrings = () => {
     let replaceStrings = [];
-    const lists = document.getElementById(ID_REPLACE_STRINGS).children;
-    for (const elem of lists) {
-        if (elem && elem.children) {
-            const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
-            const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
-            if (beforeInput !== 'undefined' && afterInput !== 'undefined') {
-                const before = replaceEscapeSequence(beforeInput.value);
-                const after = replaceEscapeSequence(afterInput.value);
-                replaceStrings.push({before, after});
+
+    if (mode === 'mode_input') {
+        const lists = document.getElementById(ID_REPLACE_STRINGS).children;
+        for (const elem of lists) {
+            if (elem && elem.children) {
+                const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
+                const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
+                if (beforeInput !== undefined && afterInput !== undefined) {
+                    const before = replaceEscapeSequence(beforeInput.value);
+                    const after = replaceEscapeSequence(afterInput.value);
+                    replaceStrings.push({before, after});
+                }
             }
         }
+    }
+
+    else if (mode === 'mode_text') {
+        const input = document.getElementById(ID_REPLACE_STRINGS_TEXT) !== null ? document.getElementById(ID_REPLACE_STRINGS_TEXT).value : '';
+        input.split('\n').forEach(line => {
+            const [before, after] = line.split('\t');
+            if (before !== undefined && after !== undefined) {
+                replaceStrings.push({before, after});
+            }
+        });
     }
     return replaceStrings;
 }
@@ -335,8 +367,41 @@ const resizeTextArea = target => {
     target.style.height = `${lines + 1}em`;
 }
 
+const inputTestData = () => {
+    const testData1 = [
+        {before: 'before', after: 'after'},
+        {before: '', after: ''}
+    ];
+
+    const lists = document.getElementById(ID_REPLACE_STRINGS).children;
+    
+    // テストデータに足りない分だけ行追加
+    while (lists.length < testData1.length) {
+        addInputRow();
+    }
+    
+    for (let i = 0; i < testData1.length; i++) {
+        const elem = lists[i];
+        if (elem && elem.children) {
+            const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
+            const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
+            beforeInput.value = testData1[i].before;
+            afterInput.value = testData1[i].after;
+        }
+    }
+
+    const testData2 = [
+        ['before', 'after'].join('\t'),
+        ['', ''].join('\t'),
+        ['a'].join('\t'),
+        ['a', 'b', 'c', 'd'].join('\t')
+    ].join('\n');
+    document.getElementById(ID_REPLACE_STRINGS_TEXT).value = testData2;
+}
+
 onReadyPromise()
 .then(init)
+//.then(inputTestData)
 .catch((e) => {
     console.error(e);
 });
