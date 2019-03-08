@@ -12,6 +12,9 @@ fieldset {
 .disable {
     display: none;
 }
+.box {
+    padding-top: .5em;
+}
 
 div.resultWrapper {
     display: flex;
@@ -33,4 +36,11 @@ div.resultWrapper>div>textarea {
 #replaceStrings li input {
     width: 40%;
     min-width: 10em;
+}
+textarea#replaceStrings_text {
+    width: 100%;
+    min-height: 5em;
+    max-height: 40em;
+    resize: vertical;
+    white-space: pre;
 }
