@@ -152,6 +152,10 @@ const setEvent = () => {
     .forEach(textarea => {
         textarea.addEventListener('keydown', inputTab);
     });
+
+    // 行入れ替え
+    console.log($(`#${ID_REPLACE_STRINGS}`));
+    $(`#${ID_REPLACE_STRINGS}`).sortable();
 };
 
 /**
