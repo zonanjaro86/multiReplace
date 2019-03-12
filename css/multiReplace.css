@@ -36,6 +36,10 @@ button.btn_del {
     margin-left: .5em;
 }
 
+#replaceStrings li {
+    list-style-type: decimal-leading-zero;
+    list-style-position: inside;
+}
 #replaceStrings li input {
     width: 40%;
     min-width: 10em;
