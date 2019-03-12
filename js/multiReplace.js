@@ -72,7 +72,7 @@ const createDom = () => {
     nodes.push(htmlToNode(title));
 
     let sec1 = ''
-    + `<fieldSet>`
+    + `<fieldSet class="max_width_1080">`
         + `<legend>Setting</legend>`
         + `<input id="${ID_CHK_USE_REGEXP}" type="checkbox" checked><label for="${ID_CHK_USE_REGEXP}">Use regexp </label>`
         + `<input id="${ID_CHK_CASE_SENSITIVE}" type="checkbox"><label for="${ID_CHK_CASE_SENSITIVE}">Case sensitive </label>`
@@ -81,7 +81,7 @@ const createDom = () => {
     nodes.push(htmlToNode(sec1));
 
     let sec2 = ''
-    + `<fieldSet>`
+    + `<fieldSet class="max_width_1080">`
         + `<legend>Replace Strings</legend>`
         + `<button id="${ID_BTN_CHANGE_MODE}">Change mode</button>`
         + `<div class="${CLS_MODE_INPUT} ${CLS_BOX} ${mode === 'mode_input' ? '' : CLS_DISABLE}">`
@@ -97,13 +97,14 @@ const createDom = () => {
     nodes.push(htmlToNode(sec2));
 
     let sec3 = ''
-    + `<section>`
+    + `<fieldSet>`
+    + `<legend>Result</legend>`
     + `<button id="${ID_BTN_EXECUTE}" type="button" >execute</button>`
         + `<div id="" class="${CLS_REPLACE_TARGET_WRAPPER}">`
             + `<div>Before<textarea id="${ID_REPLACE_TARGET}" spellcheck="false" class="${CLS_TEXTAREA_RESIZE}"         ></textarea></div>`
             + `<div>After <textarea id="${ID_REPLACE_RESULT}" spellcheck="false" class="${CLS_TEXTAREA_RESIZE}" readonly></textarea></div>`
         + `</div>`
-    + `</section>`;
+    + `</fieldSet>`;
     nodes.push(htmlToNode(sec3));
     
     const fragment = document.createDocumentFragment();
