@@ -98,11 +98,11 @@ const createDom = () => {
 
     let sec3 = ''
     + `<section>`
+    + `<button id="${ID_BTN_EXECUTE}" type="button" >execute</button>`
         + `<div id="" class="${CLS_REPLACE_TARGET_WRAPPER}">`
             + `<div>Before<textarea id="${ID_REPLACE_TARGET}" spellcheck="false" class="${CLS_TEXTAREA_RESIZE}"         ></textarea></div>`
             + `<div>After <textarea id="${ID_REPLACE_RESULT}" spellcheck="false" class="${CLS_TEXTAREA_RESIZE}" readonly></textarea></div>`
         + `</div>`
-        + `<button id="${ID_BTN_EXECUTE}" type="button" >execute</button>`
     + `</section>`;
     nodes.push(htmlToNode(sec3));
     
