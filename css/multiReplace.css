@@ -5,7 +5,7 @@ h1 {
     font-size: large;
     color: darkmagenta;
 }
-fieldset {
+.max_width_1080 {
     max-width: 1080px;
 }
 
