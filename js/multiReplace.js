@@ -25,7 +25,7 @@
 /*
  * 変数
  */
-let mode = 'mode_text';  // 置換文字列の入力モード(mode_input, mode_text)
+let mode = 'mode_input';  // 置換文字列の入力モード(mode_input, mode_text)
 
 /**
  * ページ読み込み後の非同期処理起点
@@ -288,7 +288,7 @@ const getReplaceStrings = () => {
             if (elem && elem.children) {
                 const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
                 const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
-                if (beforeInput !== undefined && afterInput !== undefined) {
+                if (beforeInput !== undefined && afterInput !== undefined && beforeInput.value !== '') {
                     const before = replaceEscapeSequence(beforeInput.value);
                     const after = replaceEscapeSequence(afterInput.value);
                     replaceStrings.push({before, after});
@@ -317,15 +317,16 @@ const getReplaceStrings = () => {
  */
 const setReplaceStrings = (replaceStrings) => {
     if (mode === 'mode_input') {
-        const lists = document.getElementById(ID_REPLACE_STRINGS).children;
-    
-        // データに足りない分だけ行追加
-        while (lists.length < replaceStrings.length) {
-            addInputRow();
-        }
+
+        const ol = document.getElementById(ID_REPLACE_STRINGS);
+
+        // 一旦全行を削除する
+        while (ol.firstChild) ol.removeChild(ol.firstChild);
         
+        // 置換文字列の分だけ行を追加しながら値を設定する
         for (let i = 0; i < replaceStrings.length; i++) {
-            const elem = lists[i];
+            addInputRow();
+            const elem = ol.children[i];
             if (elem && elem.children) {
                 const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
                 const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
@@ -333,6 +334,8 @@ const setReplaceStrings = (replaceStrings) => {
                 afterInput.value = replaceStrings[i].after;
             }
         }
+        // 空の行追加
+        addInputRow();
     }
     else if (mode === 'mode_text') {
         document.getElementById(ID_REPLACE_STRINGS_TEXT).value = replaceStrings.map(replaceString => {
