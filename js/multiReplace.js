@@ -22,8 +22,6 @@
     const CLS_TEXTAREA_RESIZE        = 'resize';
     const CLS_TEXTAREA_TAB_ENABLE    = 'tab_enable';
 
-    const NODE_INPUT_ROW = `<li><input name="${CLS_REPLACE_STRING_BEFORE}" /><span> ⇒ </span><input name="${CLS_REPLACE_STRING_AFTER}" /></li>`;
-
 /*
  * 変数
  */
@@ -87,7 +85,6 @@ const createDom = () => {
         + `<div class="${CLS_MODE_INPUT} ${CLS_BOX} ${mode === 'mode_input' ? '' : CLS_DISABLE}">`
             + `<button id="${ID_BTN_ADDROW}" type="button">Add row</button>`
             + `<ol id="${ID_REPLACE_STRINGS}">`
-                + NODE_INPUT_ROW
             + `</ol>`
         + `</div>`
         + `<div class="${CLS_MODE_TEXT} ${CLS_BOX} ${mode === 'mode_input' ? CLS_DISABLE: ''}">`
@@ -114,7 +111,7 @@ const createDom = () => {
     document.body.appendChild(fragment);
 
     // 初期表示時に4列表示する
-    [2,3,4].forEach(addInputRow);
+    [1,2,3,4].forEach(addInputRow);
 };
 
 /**
@@ -216,7 +213,7 @@ const changeMode = () => {
 const addInputRow = () => {
     const ol = document.getElementById(ID_REPLACE_STRINGS);
     if (ol) {
-        const newRow = htmlToNode(NODE_INPUT_ROW);
+        const newRow = htmlToNode(`<li><input name="${CLS_REPLACE_STRING_BEFORE}" /><span> ⇒ </span><input name="${CLS_REPLACE_STRING_AFTER}" /></li>`);
         const delButton = htmlToNode(`<button class="${CLS_BTN_DEL}" tabIndex="-1">del</button>`);
         delButton.addEventListener('click', delInputRow);
         newRow.appendChild(delButton);
