@@ -288,7 +288,7 @@ const getReplaceStrings = () => {
             if (elem && elem.children) {
                 const beforeInput = elem.children.namedItem(CLS_REPLACE_STRING_BEFORE);
                 const afterInput = elem.children.namedItem(CLS_REPLACE_STRING_AFTER);
-                if (beforeInput !== undefined && afterInput !== undefined && beforeInput.value !== '') {
+                if (beforeInput !== undefined && afterInput !== undefined && (beforeInput.value !== '' || afterInput.value !== '')) {
                     const before = replaceEscapeSequence(beforeInput.value);
                     const after = replaceEscapeSequence(afterInput.value);
                     replaceStrings.push({before, after});
@@ -356,8 +356,9 @@ const setReplaceStrings = (replaceStrings) => {
  * @param {boolean}  [option.isMultiLine = false] 複数行に対して
  * @return {string}
  */
-export const multiReplace = (targetStr, replaceStrings, option = {}) => {
+export const multiReplace = (targetStr, _replaceStrings, option = {}) => {
     let result = targetStr;
+    const replaceStrings = _replaceStrings.filter(o => o.before !== '');
     const {useRegExp = false, isCaseSensitive = false, isMultiLine = false} = option;
     if (useRegExp) {
         // 正規表現を使用
